@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Rick and Morty</title>
+</head>
+
+<body>
+    <!-- +-----------------+
+    |      HEADER     |
+    +-----------------+ -->
+        <nav class="navbar bg-body-tertiary sticky-top"">
+      <div class=" container-fluid">
+            <img src="../media/Header.png" alt="Rick and Morty logo" class="header-logo">
+            </div>
+        </nav>
+        
+    <!-- +-----------------+
+    |     SIDE        |
+    +-----------------+ -->
+        <div class="row">
+            <div class="col-4">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="FALSE" aria-controls="collapseOne">
+                          Season One
+                        </button>
+                      </h2>
+                      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div id=" accordion-body simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
+                    <a class="p-1 rounded" href="#episode1">episode 1</a>
+                    <a class="p-1 rounded" href="#episode2">episode 2</a>
+                    <a class="p-1 rounded" href="#episode3">episode 3</a>
+                </div>
+                        </div>
+                      </div>
+              
+                <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
+                    <a class="p-1 rounded" href="#episode4">CHARACTERS</a>
+                    <a class="p-1 rounded" href="#episode5">LOCATIONS</a>
+                
+                </div>
+            </div>
+            </div>
+            <div class="col-8" id="episodeScreen">
+                <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0"
+                    data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                    
+                    <!-- una carta -->
+                    <div class="card mb-3" style="max-width: 540px;" id="episode1">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="download.jpeg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">episonde 1</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural
+                                        lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="card mb-3" style="max-width: 540px;" id="episode2">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="download.jpeg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">epis</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural
+                                        lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3" style="max-width: 540px;" id="episode3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="download.jpeg" class="img-fluid rounded-start" alt="...">
+                            </div>
+    
+    <!-- +-----------------+
+    |     MAIN        |
+    +-----------------+ -->
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural
+                                        lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3" style="max-width: 540px;" id="episode4">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="download.jpeg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural
+                                        lead-in to additional content. This content is a little bit longer.</p>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../dist/main.js"></script>
+
+</body>
+
+</html>
