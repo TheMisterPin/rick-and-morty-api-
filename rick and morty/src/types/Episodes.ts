@@ -5,4 +5,6 @@ export interface Episode {
     episode: string;
     characters: string[];
     url: string;
+    description: string;
+    image: string;
 }

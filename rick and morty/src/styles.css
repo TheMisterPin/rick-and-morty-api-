@@ -1,1 +1,130 @@
-.header-logo{width: 100vw; height:200px}
+@font-face {
+  font-family: Rick-Morty;
+  src: url(..\media\font\get_schwifty.ttf);
+}
+*{font-family: Rick-Morty;}
+.header-logo {
+  width: 100vw;
+  height: 200px;
+}
+
+
+
+
+.card-img-left {
+  width: 100px;
+}
+
+/* Intro animations and stylings */
+.intro-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to right, #232323, #434343);
+}
+
+.morty-intro, .rick-intro, .logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.morty-intro {
+  top: 40%;
+  animation: moveMortyVertical 1s forwards, moveMortyHorizontal 5s 1s forwards, fadeOut 1s 8.5s forwards;
+}
+
+.rick-intro {
+  bottom: 40%;
+  animation: moveRickVertical 1s forwards, moveRickHorizontal 5s 1s forwards, fadeOut 1s 8.5s forwards;
+}
+
+.logo {
+  top: 50%;
+  animation: expandLogo 5s 1s forwards, fadeOut 1s 8.5s forwards;
+}
+
+@keyframes moveMortyVertical {
+  0% { bottom: 40%; }
+  100% { bottom: 50%; }
+}
+
+@keyframes moveRickVertical {
+  0% { top: 40%; }
+  100% { top: 50%; }
+}
+
+@keyframes moveMortyHorizontal {
+  0% { left: 50%; }
+  100% { left: 12.5%; }
+}
+
+@keyframes moveRickHorizontal {
+  0% { left: 50%; }
+  100% { left: 87.5%; }
+}
+
+@keyframes expandLogo {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  100% { transform: translate(-50%, -50%) scale(1.5); }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Sidebar and display layout styling */
+
+.layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh; /* Ensure the container has a height */
+  align-items: stretch;
+  overflow-y: auto; /* To scroll if content inside layout is longer than viewport height */
+}
+
+.display {
+  flex: 3;
+  padding: 20px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;  /* Adjusting for the column flow */
+  max-height: 100vh;  
+  overflow-y: auto;  /* Allows scrolling */
+}
+
+.episode-cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;  /* For three columns */
+  gap: 20px;
+  width: 100%;
+}
+
+.sidebar {
+  flex: 1;
+  max-width: 250px;
+  background-color: #f5f5f5;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+}        
+.active-episode {
+    background-color: #007BFF; /* Adjust the color as needed */
+    color: white;
+}
+
+.display {
+  flex: 3;
+  padding: 20px;
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* spacing between episode cards */
+  justify-content: space-between;
+}
+
+.card {width: 23%;}
