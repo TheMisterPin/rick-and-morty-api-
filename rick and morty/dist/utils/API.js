@@ -1,34 +1,64 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 const url = 'https://rickandmortyapi.com/api';
 const urlEpisodes = `${url}/episode`;
+const urlEpisodesTwo = `${url}/episode?page=2`;
 const urlLocations = `${url}/location`;
 const urlCharacters = `${url}/character`;
-export function getEpisodes() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const response = yield fetch(urlEpisodes);
-        const data = yield response.json();
-        return data.results;
-    });
+export async function getEpisodes() {
+    const response = await fetch(urlEpisodes);
+    const data = await response.json();
+    return data.results;
 }
-export function getLocations() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const response = yield fetch(urlLocations);
-        const data = yield response.json();
-        return data.results;
-    });
+export async function getEpisodesTwo() {
+    const response = await fetch(urlEpisodesTwo);
+    const data = await response.json();
+    return data.results;
 }
-export function getCharacters() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const response = yield fetch(urlCharacters);
-        const data = yield response.json();
-        return data.results;
-    });
+export async function getLocations() {
+    const response = await fetch(urlLocations);
+    const data = await response.json();
+    return data.results;
+}
+export async function getCharacters() {
+    const response = await fetch(urlCharacters);
+    const data = await response.json();
+    return data.results;
+}
+export async function getAllepisodes() {
+    let allEpisodes = [];
+    for (let i = 1; i < 4; i++) {
+        const episodes = await fetchAll(i);
+        allEpisodes = [...allEpisodes, ...episodes];
+    }
+    return allEpisodes;
+}
+async function fetchAll(i) {
+    const response = await fetch(`${url}/episode?page=${i}`);
+    const data = await response.json();
+    return data.results;
+}
+export async function getAllLocations() {
+    let allLocations = [];
+    for (let i = 1; i < 7; i++) { // The API has around 6 pages for locations as of my last training cut-off in September 2021
+        const locations = await fetchAllLocations(i);
+        allLocations = [...allLocations, ...locations];
+    }
+    return allLocations;
+}
+async function fetchAllLocations(i) {
+    const response = await fetch(`${url}/location?page=${i}`);
+    const data = await response.json();
+    return data.results;
+}
+export async function getAllCharacters() {
+    let allCharacters = [];
+    for (let i = 1; i < 35; i++) {
+        const characters = await fetchAllCharacters(i);
+        allCharacters = [...allCharacters, ...characters];
+    }
+    return allCharacters;
+}
+async function fetchAllCharacters(i) {
+    const response = await fetch(`${url}/character?page=${i}`);
+    const data = await response.json();
+    return data.results;
 }

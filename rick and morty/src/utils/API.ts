@@ -37,8 +37,8 @@ export async function getCharacters() {
     return data.results;
 }
 
-export async function getAllepisodes(): Promise<Episode[]> { 
-    let allEpisodes: Episode[] = []; 
+export async function getAllepisodes(): Promise<Episode[]> {
+    let allEpisodes: Episode[] = [];
 
     for (let i = 1; i < 4; i++) {
         const episodes = await fetchAll(i);
@@ -48,13 +48,13 @@ export async function getAllepisodes(): Promise<Episode[]> {
     return allEpisodes;
 }
 
-async function fetchAll(i:number): Promise<Episode[]> {  
+async function fetchAll(i: number): Promise<Episode[]> {
     const response = await fetch(`${url}/episode?page=${i}`);
     const data = await response.json();
-    return data.results;       
+    return data.results;
 }
 export async function getAllLocations(): Promise<Location[]> {
-    let allLocations: Location[] = []; 
+    let allLocations: Location[] = [];
 
     for (let i = 1; i < 7; i++) {  // The API has around 6 pages for locations as of my last training cut-off in September 2021
         const locations = await fetchAllLocations(i);
@@ -72,9 +72,9 @@ async function fetchAllLocations(i: number): Promise<Location[]> {
 
 
 export async function getAllCharacters(): Promise<Character[]> {
-    let allCharacters: Character[] = []; 
+    let allCharacters: Character[] = [];
 
-    for (let i = 1; i < 35; i++) {  
+    for (let i = 1; i < 35; i++) {
         const characters = await fetchAllCharacters(i);
         allCharacters = [...allCharacters, ...characters];
     }
@@ -89,7 +89,12 @@ async function fetchAllCharacters(i: number): Promise<Character[]> {
 }
 
 
-
-
+export async function getCharacterByUrl(characterUrl: string): Promise<Character> {
+    const response = await fetch(characterUrl);
+    if (!response.ok) {
+        throw new Error("Network response was not ok");
+    }
+    return await response.json();
+}
 
 
