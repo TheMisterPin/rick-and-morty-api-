@@ -1,15 +1,9 @@
 const url = 'https://rickandmortyapi.com/api';
 const urlEpisodes = `${url}/episode`;
-const urlEpisodesTwo = `${url}/episode?page=2`;
 const urlLocations = `${url}/location`;
 const urlCharacters = `${url}/character`;
 export async function getEpisodes() {
     const response = await fetch(urlEpisodes);
-    const data = await response.json();
-    return data.results;
-}
-export async function getEpisodesTwo() {
-    const response = await fetch(urlEpisodesTwo);
     const data = await response.json();
     return data.results;
 }
@@ -61,4 +55,14 @@ async function fetchAllCharacters(i) {
     const response = await fetch(`${url}/character?page=${i}`);
     const data = await response.json();
     return data.results;
+}
+export async function getCharacterById(id) {
+    try {
+        const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+        const characterData = await response.json();
+        return characterData;
+    }
+    catch (error) {
+        console.error("Error fetching character by ID:", error);
+    }
 }

@@ -3,115 +3,6 @@
   src: url('../media/font/get_schwifty.ttf') format('truetype');
 }
 
-body {
-  min-height: 100vh;
-  background-color: #434343;
-  margin: 0;
-  background-color: #434343;
-}
-
-.header-logo {
-  width: 100vw;
-  height: 200px;
-}
-
-.intro-container {
-  display: flex;
-  max-width: max-content;
-}
-
-.morty-intro, .rick-intro, .logo {
-  opacity: 1;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.rick-intro {
-  animation: moveRickOutwards 3s forwards, fadeOut 1s 6s forwards;
-}
-
-.morty-intro {
-  animation: moveMortyOutwards 3s forwards;
-}
-
-.logo {
-  opacity: 0;
-  animation: popLogo 2s 1s forwards, pauseLogo 1.5s 3s forwards, moveToTop 2s 4.5s forwards;
-}
-
-@keyframes moveRickOutwards {
-  0% { left: 50%; transform: translate(-50%, -50%); }
-  100% { left: 100%; transform: translate(-100%, -50%); }  
-}
-
-@keyframes moveMortyOutwards {
-  0% { left: 50%; transform: translate(-50%, -50%); }
-  100% { left: 0%; transform: translate(0%, -50%); }  
-}
-
-@keyframes popLogo {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-}
-
-@keyframes pauseLogo {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-}
-
-@keyframes moveToTop {
-  0% { transform: translate(-50%, 0%) scale(1); }
-  100% { transform: translate(-50%, -150%) scale(1); }
-}
-
-/* .layout > * {display: none;} */
-
-.modal{Position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;z-index: 9999;}
-.sidebar {
-  min-height: 100vh; /
-}
-
-.episode-item {
-  cursor: pointer; /* If you want each episode item to appear clickable */
-}
-
-
-
-
-.card-img-left {
-  width: 100px;
-}
-
-
-.layout {
-  overflow-y: auto;
-
-}
-
- .display {
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-  max-height: 100vh;
-}
-
-
-
-
-.card {
-  text-align: center;
-  width: 23%;
-}
-
-
 :root {
   --morty-yellow: hsl(50, 100%, 50%);
   --rick-blue: hsl(202, 100%, 38%);
@@ -123,21 +14,229 @@ body {
   --galactic-gray: hsl(216, 9%, 21%);
   --beth-wine: hsl(341, 59%, 35%);
   --meeseeks-blue: hsl(214, 100%, 66%);
+  --text: #f2ffe7;
+  --background: #515a55;
+  --primary: #60e185;
+  --secondary: #d7f490;
+  --accent: #3f7b92;
+
+}
+
+
+
+
+body {
+  max-height: 100vh;
+  background-color:var(--galactic-gray) ;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+#header {
+  background: linear-gradient(to right, #232323, #252A24);
+  position: fixed;
+   top: 0;
+  height: 300px;
+  width: 100vw;
+  overflow: hidden;
+  z-index: 80;
+  border-bottom: var(--pickle-rick-green) ridge 10px;
+}
+
+#portal {
+  z-index: 90;
+  height: 100%;
+  position: absolute;
+  left: 50%; /* 70% - 20% */
+}
+
+.rick-container {
+  height: 100%;
+  width: 600px;
+  z-index: 90;
+  position: absolute;
+  left: calc(65% - 20%); /* 20px after the portal adjusted by 20% */
+  overflow: hidden;
+}
+
+.rick-intro {
+  z-index: 91;
+  height: 80%;
+  position: absolute;
+  top: 10%;
+  left: 100%; /* Start from outside the right of the container */
+  animation: slideInRick 2.5s ease-out forwards;
+}
+
+@keyframes slideInRick {
+  0% {
+      left: 100%;
+  }
+  100% {
+      left: 0%;
+  }
+}
+
+.logo {
+  z-index: 93;
+  position: absolute;
+ left: 100%; /* 130% - 20% */
+  top: 15%;
+  animation: slideInLogo 1.5s ease-out 3s forwards;
+}
+
+@keyframes slideInLogo {
+  0% {
+      right: 10%;
+  }
+  100% {
+      left: 25%; /* 25% - 20% */
+  }
 }
 
 
 
 
 
-.accordion{background-color: transparent;
+
+
+/* .layout > * {display: none;} */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
 }
 
-.accordion-header {
-  text-align: center;
-  font-size: 50px;
+.main {
+  display: flex;
+  margin-top: 300px; 
+  height: calc(100vh - 300px);
+}
+.link-button {border: #60e185 groove 3px;
+  background-color: var(--void-black); color: var(--spacecraft-silver);
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px; 
+  height: 100px;
+  font-size: 55px;
   font-family: 'RickMortyFont';
-  -webkit-text-stroke-width: 0.3px;
+  -webkit-text-stroke-width: 1.8px;
   -webkit-text-stroke-color: #95f396;
-  -webkit-text-fill-color: #8ADAFF;
+  -webkit-text-fill-color: #00b5e8; }
+  .location-screen{padding: 10px}
+  .location-card {
+  margin: 10px;
+  border: 2px inset var(--pickle-rick-green);
+  background-color: var(--rick-blue);
+  color: var(--spacecraft-silver);}
+  
+  .character-name{color: var(--spacecraft-silver);}
+#sidebar {
+    position: fixed; /* Change from sticky to fixed */
+    top: 300px; /* start below the header */
+    left: 0; /* start at the left-most side of the viewport */
+    height: calc(100vh - 300px); /* take the rest of the height after the header */
+    width: 25%; /* set a fixed width */
+  background: linear-gradient(to right, #232323, #252A24);
+  z-index: 0;
+  border-right: var(--pickle-rick-green) ridge 10px;
+}
+
+.display {
+    margin-left: 35%; /* adjust to match the sidebar's width */
+    width: 65%; /* adjust the width */
+    height: calc(100vh - 300px); 
+  overflow-y: auto;
+  scrollbar-width: none;
+  margin-left: 35%;
+  margin-top: 50px;
  
 }
+
+.display::-webkit-scrollbar {
+  display: none;
+}
+
+.episode-item {
+  cursor: pointer;
+}
+
+.card-img-left {
+  width: 100px;
+}
+
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.accordion button {
+  border: var(--pickle-rick-green) groove 3px ;
+  height: 75px;
+  padding-left: 40px;
+  background-color: var(--void-black);
+  font-size: xx-large;
+  flex:1 
+}
+
+.accordion:hover{flex:1.5;}
+
+.accordion {
+--bs-accordion-border-radius: 0;
+--bs-accordion-border-width: 0;
+--bs-accordion-inner-border-radius:0;}
+
+.accordionContainer .season-header {
+  margin-top: 20px;
+   font-family: 'RickMortyFont';
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: #95f396;
+  -webkit-text-fill-color: #8ADAFF;
+--bs-accordion-btn-icon: none;
+--bs-accordion-btn-icon-transform: none;
+--bs-accordion-btn-icon-transition: none; 
+--bs-accordion-btn-active-icon: none:
+
+}
+
+
+
+.episode-card 
+{  display: flex;
+  width: 70%;
+  margin-top: 25px;
+background-color: var( --void-black);
+margin: 30px;
+border: #60e185 groove 10px;
+}
+
+.screen-header {font-size: 100px;
+  font-family: 'RickMortyFont';
+  -webkit-text-stroke-width: 0.3px;
+  -webkit-text-stroke-color:#34622C;
+  -webkit-text-fill-color: #00b5e8;}
+
+
+  .episode-title{
+padding: 50px;
+font-size: 55px;
+font-family: 'RickMortyFont';
+-webkit-text-stroke-width: 0.8px;
+-webkit-text-stroke-color: #95f396;
+-webkit-text-fill-color: #00b5e8;}
+.card-text {margin-top: 5%;}
+.card-info{
+margin-right: 10%;;
+}
+.episode-btn{ width: min-content;
+margin-bottom:  20px;
+border: #60e185 groove 2px;}
+
+.episode-img{border: #60e185 groove 3px;
+margin-top: 20%;
+height: 150px;
+width: 120px}

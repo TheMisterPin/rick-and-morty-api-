@@ -4,7 +4,6 @@ import { Character } from '../types/Character';
 const url = 'https://rickandmortyapi.com/api';
 
 const urlEpisodes = `${url}/episode`;
-const urlEpisodesTwo = `${url}/episode?page=2`;
 const urlLocations = `${url}/location`;
 const urlCharacters = `${url}/character`;
 
@@ -14,12 +13,7 @@ export async function getEpisodes() {
     const data = await response.json();
     return data.results;
 }
-export async function getEpisodesTwo() {
 
-    const response = await fetch(urlEpisodesTwo);
-    const data = await response.json();
-    return data.results;
-}
 
 
 export async function getLocations() {
@@ -56,7 +50,7 @@ async function fetchAll(i: number): Promise<Episode[]> {
 export async function getAllLocations(): Promise<Location[]> {
     let allLocations: Location[] = [];
 
-    for (let i = 1; i < 7; i++) {  // The API has around 6 pages for locations as of my last training cut-off in September 2021
+    for (let i = 1; i < 7; i++) { 
         const locations = await fetchAllLocations(i);
         allLocations = [...allLocations, ...locations];
     }
@@ -89,12 +83,14 @@ async function fetchAllCharacters(i: number): Promise<Character[]> {
 }
 
 
-export async function getCharacterByUrl(characterUrl: string): Promise<Character> {
-    const response = await fetch(characterUrl);
-    if (!response.ok) {
-        throw new Error("Network response was not ok");
+export async function getCharacterById(id: number) {
+    try {
+        const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+        const characterData = await response.json();
+        return characterData;
+    } catch (error) {
+        console.error("Error fetching character by ID:", error);
     }
-    return await response.json();
 }
 
 

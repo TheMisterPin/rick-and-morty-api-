@@ -2,7 +2,7 @@ import { Episode } from './types/Episodes';
 import { Character } from './types/Character';
 import { Location } from './types/Location'
 import { getAllepisodes, getAllCharacters, getAllLocations } from './utils/API.js';
-import {getCharacters} from './utils/API.js'
+import { getCharacterById} from './utils/API.js'
 document.addEventListener("DOMContentLoaded", () => { init() });
 
 
@@ -18,7 +18,7 @@ function generateLayout() {
 }
 
 function generateSidebar(): HTMLElement {
-    const asideElement = createElement('aside', ['sidebar']);
+    const asideElement = document.querySelector(".sidebar") as HTMLElement;
     const accordionDiv = createElement('div', ['accordionContainer', 'accordion']);
     asideElement.appendChild(accordionDiv);
     return asideElement;
@@ -46,7 +46,7 @@ async function generateAccordion() {
     const episodes = await getAllepisodes();
     const categorizedSeasons = seasonSelector(episodes);
     for (const season in categorizedSeasons) {
-        const seasonDiv = createElement('div', ['accordion-item']);
+        const seasonDiv = createElement('div', ['accordion-item', 'episode']);
         const seasonHeader = generateAccordionHeader(season);
         seasonDiv.appendChild(seasonHeader);
         const seasonBody = generateAccordionBody(season, categorizedSeasons[season]);
@@ -65,8 +65,8 @@ function formatSeasonString(season: string): string {
 }
 
 function generateAccordionHeader(season: string): HTMLElement {
-    const seasonHeader = createElement('h2', ['accordion-header'], { id: `heading${season}` });
-    const seasonButton = createElement('button', ['accordion-button', 'collapsed'], {
+    const seasonHeader = createElement('h2', ['season-header','accordion-header'], { id: `heading${season}` });
+    const seasonButton = createElement('button', ['accordion-button', 'collapsed', 'season-button'], {
         'type': 'button',
         'data-bs-toggle': 'collapse',
         'data-bs-target': `#collapse${season}`
@@ -90,14 +90,16 @@ function generateAccordionBody(season: string, episodes: any[]): HTMLElement {
         'aria-labelledby': `heading${season}`,
         'data-bs-parent': ".accordion"
     });
-    const episodesDiv = createElement('div', ['d-flex', 'flex-column', 'text-center']);
+    const episodesDiv = createElement('ul', ['d-flex', 'flex-column', 'simple-list-example-scrollspy','text-center', 'episode-list']);
     episodes.forEach(episode => {
-        const episodeDiv = createElement('a', ['episode-item'], { href: `#${episode.id}` });
-        episodeDiv.innerText = episode.name;
-        episodeDiv.setAttribute('data-id', episode.id.toString());
-        // Removed the click event listener from here
-        episodesDiv.appendChild(episodeDiv);
-    });
+        const episodeDiv = createElement ('li', ['href="#simple-list-item-1'])
+        const episodeLink = createElement('a', ['episode-item', 'p-1', 'rounded'], { href: `#${episode.id}` });
+    episodeLink.innerText = episode.name;  
+    episodeLink.setAttribute('data-id', episode.id.toString());  
+    episodeDiv.appendChild(episodeLink);
+    episodesDiv.appendChild(episodeDiv);
+});
+
     seasonCollapseDiv.appendChild(episodesDiv);
     return seasonCollapseDiv;
 
@@ -111,13 +113,19 @@ async function getEpisodesForSeason(season: string) {
 function generateSeasonCards(episodes: any[]) {
     const display = document.querySelector('.display');
     if (!display) return;
+    
+    const seasonTitle= document.createElement('h1');
+    seasonTitle.classList.add('screen-header');
+    seasonTitle.innerText=`Season ${episodes[0]?.episode?.slice(1,3)}`;
 
     const fragment = document.createDocumentFragment();
     episodes.forEach(episode => {
         const episodeCard = generateEpisodeCard(episode);
         fragment.appendChild(episodeCard);
     });
-    display.innerHTML = '';  // Clear previous cards
+   
+    display.innerHTML = '';  
+   display.appendChild(seasonTitle)
     display.appendChild(fragment);
 }
 
@@ -138,57 +146,55 @@ function generateEpisodeCard(episode: any): HTMLElement {
     const seasonNumber = episode.episode.slice(1, 3);
     const imagePath = `../media/seasons/season${seasonNumber}.png`;
 
-    const card = createElement('div', ['card', 'mb-3'], { style: "max-width: 740px;" });
-    const row = createElement('div', ['row', 'g-0']);
+    const card = createElement('div', ['card','text-center', 'episode-card'], {  id: episode.id.toString() });
+    const row = createElement('div', ['row', 'g-0','justify-content-center']);
 
-    // Image Column
     const imgCol = createElement('div', ['col-md-4']);
-    const img = createElement('img', ['img-fluid', 'rounded-start'], { src: imagePath, alt: episode.name });
+    const img = createElement('img', ['img-fluid', 'rounded-start', 'episode-img'], { src: imagePath, alt: episode.name });
     imgCol.appendChild(img);
 
-    // Content Column
     const contentCol = createElement('div', ['col-md-8']);
-    const cardBody = createElement('div', ['card-body']);
+    const cardBody = createElement('div', ['card-info']);
 
-    // Card Title - Episode Name
-    const cardTitle = createElement('h5', ['card-title']);
+    const cardTitle = createElement('h5', ['card-title', 'episode-title']);
     cardTitle.innerText = episode.name;
     cardBody.appendChild(cardTitle);
 
-    // Episode Code
-    const episodeCode = createElement('p', ['card-text']);
+    const episodeCode = createElement('p', ['card-text', 'episode-text']);
     episodeCode.innerText = episode.episode;
     cardBody.appendChild(episodeCode);
 
     const viewCharactersButton = document.createElement('button');
+    viewCharactersButton.classList.add('episode-btn');
     viewCharactersButton.innerText = 'View Characters';
-    viewCharactersButton.addEventListener('click', () => showPj(episode));
-    // Append button to episode card
-    cardBody.appendChild(viewCharactersButton);
-
+    viewCharactersButton.addEventListener('click', () => showCharacters(episode));
 
     contentCol.appendChild(cardBody);
     row.appendChild(imgCol);
     row.appendChild(contentCol);
     card.appendChild(row);
+    row.appendChild(viewCharactersButton);
 
     return card;
 }
 
-
-
 const locationButton = document.querySelector('#locations');
-
+const characterButton = document.querySelector('#characters');
 if (locationButton) {
     locationButton.addEventListener('click', showLocations);
 }
+
+if (characterButton) {
+    characterButton.addEventListener('click', showAllCharacters);
+}
+
 
 async function showLocations() {
     const display = document.querySelector('.display')!;
     display.innerHTML = "";
 
-    const locationsScreen = document.createElement('div');
-    locationsScreen.classList.add("container");
+    const locationsScreen = document.createElement('section');
+    locationsScreen.classList.add('container', 'location-screen');
     display.appendChild(locationsScreen);
 
     try {
@@ -197,37 +203,35 @@ async function showLocations() {
         let row: HTMLDivElement;
 
         locations.forEach((location: any, index: number) => {
-            if (index % 3 === 0) { // Start a new row every 3 locations
+            if (index % 2 === 0) { 
                 row = document.createElement('div');
                 row.classList.add('row');
                 locationsScreen.appendChild(row);
             }
 
             const locationCard = document.createElement('div');
-            locationCard.classList.add('col-md-4', 'text-center');
+            locationCard.setAttribute('data-id', location.id.toString());
+            locationCard.classList.add('col-md-4','text-center','location-card');
 
-            if (location.image) {
-                const locationImage = document.createElement('img');
-                locationImage.src = location.image;
-                locationImage.alt = location.name;
-                locationImage.classList.add('img-fluid');
-                locationCard.appendChild(locationImage);
-            }
 
             const locationName = document.createElement('h2');
             locationName.innerText = location.name;
+            locationName.classList.add('location-name');
             locationCard.appendChild(locationName);
 
             const locationType = document.createElement('p');
+            locationType.classList.add('location-type')
             locationType.innerText = `Type: ${location.type}`;
             locationCard.appendChild(locationType);
 
             const locationDimension = document.createElement('p');
+            locationDimension.classList.add('location-type')
             locationDimension.innerText = `Dimension: ${location.dimension}`;
             locationCard.appendChild(locationDimension);
 
             const showResidentsButton = document.createElement('button');
             showResidentsButton.innerText = "Show Residents";
+            showResidentsButton.classList.add('resident-button')
             showResidentsButton.addEventListener('click', () => showResidents(location));
             
             locationCard.appendChild(showResidentsButton);
@@ -238,149 +242,129 @@ async function showLocations() {
         console.error("Error fetching locations:", error);
     }
 }
-const characterButton = document.querySelector('#characters');
-
-if (characterButton) {
-    characterButton.addEventListener('click', showAllCharacters);
-}
 
 
 
 
 
-async function createCharacterCards(characterUrls: string[], display: HTMLElement) {
-    let row: HTMLDivElement = document.createElement('div');  // Initialize the row right away
-    row.classList.add('row');
-    display.appendChild(row);
+async function generateAllCharacterCards(characterUrls: string[], display: HTMLElement) {
+    let seasonScreen: HTMLDivElement = document.createElement('div'); 
+    seasonScreen.classList.add('season-screen');
+    display.appendChild(seasonScreen);
+
+    let row: HTMLDivElement = document.createElement('div');
+    seasonScreen.appendChild(row);
 
     for (const [index, charUrl] of characterUrls.entries()) {
-        if (index % 3 === 0 && index !== 0) {  // Add a check to skip creating a new row if it's the first iteration
-            row = document.createElement('div');
-            row.classList.add('row');
-            display.appendChild(row);
-        }
-
+        
+        
         const response = await fetch(charUrl);
         const characterData = await response.json();
 
         const characterCard = document.createElement('div');
-        characterCard.classList.add('col-md-4', 'text-center');
+        characterCard.classList.add('col-md-4', 'text-center', 'character-card');
 
         const characterImage = document.createElement('img');
         characterImage.src = characterData.image;
         characterImage.alt = characterData.name;
-        characterImage.classList.add('img-fluid');
+        characterImage.classList.add('img-fluid', 'character-image');
         characterImage.setAttribute('data-id', characterData.id.toString());
         characterImage.setAttribute('data-bs-toggle', 'modal');
         characterImage.setAttribute('data-bs-target', '#characterModal');
         characterCard.appendChild(characterImage);
 
         const characterName = document.createElement('h2');
-        characterName.innerText = characterData.name;
+        characterName.classList.add('character-name');
+        characterName.innerText = characterData.name;        
         characterCard.appendChild(characterName);
+        characterCard.addEventListener('click', () =>CharacterClick(characterImage));
+       
+        if (index % 2 === 0 && index !== 0) { 
+            row = document.createElement('div');
+            row.classList.add('row');
+            row.appendChild(characterCard);
+            seasonScreen.appendChild(row);
+        }
+       
 
-        characterCard.addEventListener('click', () => handleCharacterClick(characterImage));
-        
-        row.appendChild(characterCard);
+
     }
 }
 
 
-
-async function handleCharacterClick(image: HTMLElement) {
-    const charId = image.getAttribute('data-id');
-
-    const allCharacters = await getCharacters();
+async function CharacterClick(image: HTMLElement) {
+    const charId = parseInt(image.getAttribute('data-id') || "0");
+    const characterData = await getCharacterById(charId);
     
-    const characterData = allCharacters.find(
-        (char: { id: number, image: string, name: string, status: string, location: { name: string }, episode: string[] }) => 
-        char.id.toString() === charId
-    );
-
     if (characterData) {
-        const modalData: CharacterModalParams = {
-            image: characterData.image,
-            name: characterData.name,
-            status: `Status: ${characterData.status}`,
-            location: {
-                name: `Location: ${characterData.location.name}`
-            },
-            episode: [`Episode: ${characterData.episode.length}`]
-        };
-    
-        showModal(modalData);
+        showModal(characterData);
     }
 }
+
+function showModal(character: Character) {
+    const { image, name, status, species, gender, origin, location,} = character;
+
+    const modalTitle = document.getElementById('characterModalLabel')!;
+    const modalImage = document.getElementById('characterImage') as HTMLImageElement;
+    const modalDetailsList = document.getElementById('characterDetails')!;
     
-    interface CharacterModalParams {
-        image: string;
-        name: string;
-        status: string;
-        location: {
-            name: string;
-        };
-        episode: string[];  
-    }
-    function showModal(character: CharacterModalParams) {
-        const { image, name, status, location, episode } = character;
+    modalTitle.innerText = name;
+    modalImage.src = image;
     
-      
-        const modalTitle = document.getElementById('characterModalLabel')!;
-        const modalImage = document.getElementById('characterImage') as HTMLImageElement;  
-        const modalDetailsList = document.getElementById('characterDetails')!;
+    modalDetailsList.innerHTML = `
+        <li>${status}</li>
+        <li>Species: ${species}</li>
+        <li>Gender: ${gender}</li>
+        <li>Origin: ${origin.name}</li>
+        <li>Location: ${location.name}</li>
     
-      
-        modalTitle.innerText = name;
-        modalImage.src = image;
-        modalDetailsList.innerHTML = '';
-        modalDetailsList.innerHTML = `
-            <li>${status}</li>
-            <li>${location.name}</li>
-            <li>Episodes: ${episode.length}</li>
-        `;
-    }
+
+    `;
+}
 
     async function showAllCharacters() {
         const display = document.querySelector('.display')!;
         display.innerHTML = "";
     
         const charactersScreen = document.createElement('div');
-        charactersScreen.classList.add("container");
+        charactersScreen.classList.add("character-screen");
         display.appendChild(charactersScreen);
     
         try {
             const characters = await getAllCharacters();
             const characterUrls = characters.map(character => character.url); // Assuming each character object has a url property
-            await createCharacterCards(characterUrls, charactersScreen);
+            await generateAllCharacterCards(characterUrls, charactersScreen);
         } catch (error) {
             console.error("Error fetching characters:", error);
         }
     }
     
-    function showPj(episode: Episode) {
+    function showCharacters(episode: Episode) {
         const display = document.querySelector('.display')!;
         display.innerHTML = "";
         const episodeTitle = document.createElement('h1');
+        episodeTitle.classList.add('character-header');
         episodeTitle.innerText = episode.name;
         display.appendChild(episodeTitle);
     
-        const characterScreen = document.createElement('div');
-        characterScreen.classList.add("container");
+        const characterScreen = document.createElement('section');
+        characterScreen.classList.add("character-screen");
         display.appendChild(characterScreen);
     
-        createCharacterCards(episode.characters, characterScreen);
+        generateAllCharacterCards(episode.characters, characterScreen);
     }
     
     function showResidents(location: Location) {
         const display = document.querySelector('.display')!;
         display.innerHTML = "";
         const locationTitle = document.createElement('h1');
+        locationTitle.classList.add('location-header');
         locationTitle.innerText = location.name;
         display.appendChild(locationTitle);
     
-        const residentsScreen = document.createElement('div');
-        residentsScreen.classList.add("container");
+        const residentsScreen = document.createElement('section');
+        residentsScreen.classList.add("residents-screen");
         display.appendChild(residentsScreen);
     
-        createCharacterCards(location.residents, residentsScreen);
+        generateAllCharacterCards(location.residents, residentsScreen);
     }
